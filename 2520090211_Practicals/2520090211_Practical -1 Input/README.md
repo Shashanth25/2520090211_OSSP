@@ -125,3 +125,42 @@ else
 }
 
 return 0;
+
+4Q)
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+int main()
+{
+    int i;
+    pid_t pid;
+    for(i = 1; i <= 3; i++)
+{
+    pid = fork();
+
+    if(pid == 0)
+    {
+        printf("Child %d: PID = %d, PPID = %d\n",
+                i, getpid(), getppid());
+
+        sleep(i + 2);
+
+        printf("Child %d completed.\n", i);
+        exit(0);
+    }
+}
+
+printf("\nParent PID = %d\n", getpid());
+
+printf("\nWaiting using wait()...\n");
+
+for(i = 1; i <= 3; i++)
+{
+    wait(NULL);
+}
+
+printf("All child processes finished.\n");
+
+return 0;
