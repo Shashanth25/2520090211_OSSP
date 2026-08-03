@@ -164,3 +164,89 @@ for(i = 1; i <= 3; i++)
 printf("All child processes finished.\n");
 
 return 0;
+
+4Q(a)
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+int main()
+{
+    pid_t pid[3];
+    int i;
+    for(i = 0; i < 3; i++)
+{
+    pid[i] = fork();
+
+    if(pid[i] == 0)
+    {
+        printf("Child %d PID = %d\n", i + 1, getpid());
+
+        sleep(i + 2);
+
+        printf("Child %d Finished\n", i + 1);
+        exit(0);
+    }
+}
+
+for(i = 0; i < 3; i++)
+{
+    waitpid(pid[i], NULL, 0);
+    printf("Parent collected Child %d\n", i + 1);
+}
+
+printf("All Children Completed\n");
+
+return 0;
+
+4Q(b)
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+int main()
+{
+    pid_t pid;
+    pid = fork();
+
+if(pid == 0)
+{
+    printf("Child Process PID = %d\n", getpid());
+
+    exit(0);
+}
+else
+{
+    printf("Parent PID = %d\n", getpid());
+
+    printf("Sleeping for 20 seconds...\n");
+
+    sleep(20);
+}
+
+return 0;
+
+4Q(c)
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+int main()
+{
+    pid_t pid;
+    pid = fork();
+
+if(pid == 0)
+{
+    printf("Child Process PID = %d\n", getpid());
+
+    exit(0);
+}
+else
+{
+    wait(NULL);
+
+    printf("Zombie eliminated.\n");
+}
+
+return 0;
