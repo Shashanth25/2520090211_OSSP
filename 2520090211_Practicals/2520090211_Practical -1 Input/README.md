@@ -1,4 +1,6 @@
-1Q)
+==================
+        1Q
+==================
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -40,8 +42,12 @@ else
 }
 
 return 0;
+}
 
-2Q)
+
+==================
+        2Q
+==================
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -81,8 +87,12 @@ close(destination);
 printf("File copied successfully.\n");
 
 return 0;
+}
 
-3Q)
+
+==================
+        3Q
+==================
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -125,8 +135,12 @@ else
 }
 
 return 0;
+}
 
-4Q)
+
+==================
+        4Q
+==================
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -164,8 +178,11 @@ for(i = 1; i <= 3; i++)
 printf("All child processes finished.\n");
 
 return 0;
+}
 
-4Q(a)
+==================
+      4Q(a)
+==================
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -199,8 +216,11 @@ for(i = 0; i < 3; i++)
 printf("All Children Completed\n");
 
 return 0;
+}
 
-4Q(b)
+==================
+       4Q(b)
+==================
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -225,8 +245,11 @@ else
 }
 
 return 0;
+}
 
-4Q(c)
+==================
+       4Q(c)
+==================
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -250,3 +273,4 @@ else
 }
 
 return 0;
+}
