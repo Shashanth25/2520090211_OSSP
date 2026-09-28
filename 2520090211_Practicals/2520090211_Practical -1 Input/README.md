@@ -482,3 +482,133 @@ free(heap_var);
 
 return 0;
 }
+
+
+==================
+       8Q(a)
+==================
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    printf("= PRACTICAL 8: MEMORY ALLOCATION =\n");
+// malloc()
+int *a = (int *)malloc(5 * sizeof(int));
+
+if (a == NULL)
+{
+    printf("malloc failed\n");
+    return 1;
+}
+
+for (int i = 0; i < 5; i++)
+    a[i] = i + 1;
+
+printf("\nMemory allocated using malloc():\n");
+for (int i = 0; i < 5; i++)
+    printf("%d ", a[i]);
+
+// calloc()
+int *b = (int *)calloc(5, sizeof(int));
+
+if (b == NULL)
+{
+    printf("\ncalloc failed\n");
+    free(a);
+    return 1;
+}
+
+printf("\n\nMemory allocated using calloc():\n");
+for (int i = 0; i < 5; i++)
+    printf("%d ", b[i]);
+
+// realloc()
+a = (int *)realloc(a, 10 * sizeof(int));
+
+if (a == NULL)
+{
+    printf("\nrealloc failed\n");
+    free(b);
+    return 1;
+}
+
+for (int i = 5; i < 10; i++)
+    a[i] = i + 1;
+
+printf("\n\nAfter realloc(), memory contains:\n");
+for (int i = 0; i < 10; i++)
+    printf("%d ", a[i]);
+
+printf("\n");
+
+// Free allocated memory
+free(a);
+free(b);
+
+printf("\nMemory released using free().\n");
+
+return 0;
+}
+
+
+==================
+       8Q(b)
+==================
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#define SIZE 1000000
+int main()
+{
+    int *data = malloc(SIZE * sizeof(int));
+if (data == NULL)
+{
+    perror("malloc");
+    return 1;
+}
+
+for (int i = 0; i < SIZE; i++)
+    data[i] = 10;
+
+printf("Parent process PID: %d\n", getpid());
+printf("Before fork(): data[0] = %d\n", data[0]);
+
+pid_t pid = fork();
+
+if (pid < 0)
+{
+    perror("fork failed");
+    free(data);
+    return 1;
+}
+
+if (pid == 0)
+{
+    printf("\nChild process PID: %d\n", getpid());
+
+    printf("Before modification: data[0] = %d\n", data[0]);
+
+    data[0] = 999;
+
+    printf("After modification: data[0] = %d\n", data[0]);
+
+    printf("Child modified its copy of the memory.\n");
+
+    free(data);
+    exit(0);
+}
+else
+{
+    wait(NULL);
+
+    printf("\nParent process after child finishes:\n");
+    printf("data[0] = %d\n", data[0]);
+
+    printf("Parent value is unchanged because of Copy-on-Write.\n");
+
+    free(data);
+}
+
+return 0;
+}
