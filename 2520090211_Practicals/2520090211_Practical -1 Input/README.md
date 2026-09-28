@@ -423,3 +423,62 @@ close(read_fd);
 
 return 0;
 }
+
+
+==================
+       7Q
+==================
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+int global_var = 100;          // Global variable
+int global_uninit;             // Global uninitialized variable
+void code_function()
+{
+    printf("Inside code function\n");
+}
+int main()
+{
+    int stack_var = 10;        // Stack variable
+    static int static_var = 20; // Static variable
+    int *heap_var;             // Heap variable
+    // Allocate memory on heap
+heap_var = (int *)malloc(sizeof(int));
+*heap_var = 30;
+
+printf("\n========================================\n");
+printf("   PROCESS MEMORY ADDRESS ANALYSIS\n");
+printf("========================================\n");
+
+printf("Process ID (PID)       : %d\n", getpid());
+
+printf("\n--- Memory Addresses ---\n");
+
+// Code/Text segment
+printf("Code (function)        : %p\n", (void *)code_function);
+
+// Global segment
+printf("Global variable        : %p\n", (void *)&global_var);
+printf("Global uninitialized   : %p\n", (void *)&global_uninit);
+
+// Static segment
+printf("Static variable        : %p\n", (void *)&static_var);
+
+// Heap segment
+printf("Heap variable          : %p\n", (void *)heap_var);
+
+// Stack segment
+printf("Stack variable         : %p\n", (void *)&stack_var);
+
+printf("\n----------------------------------------\n");
+printf("Open another terminal and run:\n");
+printf("cat /proc/%d/maps\n", getpid());
+printf("----------------------------------------\n");
+
+printf("\nPress ENTER to exit...\n");
+getchar();
+
+free(heap_var);
+
+return 0;
+}
